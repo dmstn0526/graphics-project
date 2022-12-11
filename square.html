@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<!--fragment shader에서 색상을 최종적으로 제어하지만 정점 속성 데이터를 shader에 직접 넘길 수 없기 때문에 정점 shader-->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec4 vColor;
+
+varying vec4 fColor;
+
+void main()
+{
+    gl_Position = vPosition;
+    fColor = vColor;
+    gl_PointSize = 10.0;
+    /*GL이 그릴때 point를 fragment로 분할할때,
+    gl_PointSize를 중심으로 그리게 된다. 숫자가 크면 클 수록 점은 커진다.*/
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+void main()
+{
+    gl_FragColor = fColor;
+    /*gl_FragColor에 fColor라고 불리는 uniform을 assign한다.*/
+}
+</script>
+<!--웹사이트 Common 디렉토리에 있는 WebGL context를 설정하는 표준 유틸리티-->
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<!--shader를 읽고, 컴파일하고, 링크하는 JS와 WebGL코드-->
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<!--자체 행렬 벡터 패키지-->
+<script type="text/javascript" src="../Common/MV.js"></script>
+<!--응용 프로그램 파일-->
+<script type="text/javascript" src="square.js"></script>
+
+<body>
+    <div>
+    <canvas id="gl-canvas" width="512" height="512"></canvas>
+    </div>
+    <div>
+    <select id = "mymenu" size = "7">
+        <option value = "0">Black</option>
+        <option value = "1">Red</option>
+        <option value = "2">Yellow</option>
+        <option value = "3">Green</option>
+        <option value = "4">Blue</option>
+        <option value = "5">Magenta</option>
+        <option value = "6">Cyan</option>
+    </select>
+    </div>
+
+</body>
+</html>
